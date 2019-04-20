@@ -16,7 +16,11 @@ protocol GitSearchVCDelegate: class {
     
     func moreDataFetched()
     
+    func needMoreDataRepeatRequest()
+    
     func presentAlertController(_ error: DataResponseError)
     
     func handleActivityIndicator(_ state: ActivityIndicatorStates)
+    
+    func scrollTableViewToTop()
 }

@@ -103,8 +103,6 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
     @objc func unwindGitSearchFilterVC() {
         gitSearchFilterVCVM.applySelectedFilter()
         
-        
-        
         filterButton.isHidden = true
         UIView.animate(withDuration: 0.5,
                        animations: { [weak self] in

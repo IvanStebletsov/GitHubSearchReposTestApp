@@ -40,6 +40,7 @@ class NetworkService: Networking {
             if error != nil { completion(Result.failure(.connection), nil) }
             
             guard let httpResponse = response as? HTTPURLResponse, let data = data else { return }
+            print(url, httpResponse.statusCode)
             
             guard httpResponse.hasSuccessStatusCode else {
                 let httpResponse = response as! HTTPURLResponse

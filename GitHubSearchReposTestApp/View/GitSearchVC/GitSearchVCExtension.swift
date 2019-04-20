@@ -188,6 +188,14 @@ extension GitSearchVC {
 // MARK: - GitSearchVCDelegate methods
 extension GitSearchVC: GitSearchVCDelegate {
     
+    func scrollTableViewToTop() {
+        searchResultsTableView.setContentOffset(.zero, animated: true)
+    }
+    
+    func needMoreDataRepeatRequest() {
+        needFetchMoreData = true
+    }
+    
     func handleActivityIndicator(_ state: ActivityIndicatorStates) {
         switch state {
         case .activate:

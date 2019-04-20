@@ -17,7 +17,11 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     private var selectedIndexPath: IndexPath?
     private var lastRequestText: String?
     private var fetchedPages: Int?
-    private var totalCount = 0
+    private var totalCount = 0 {
+        willSet {
+            print("Total count: \(newValue)")
+        }
+    }
     var currentCount: Int?
     private var fetchedRepos = [GitRepo]() { willSet { currentCount = newValue.count } }
     
@@ -56,11 +60,12 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 
             case .failure(.network):
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 403 {
-                    guard let self = self else { return }
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: DispatchWorkItem.init(block: { [weak self] in
+                        guard let self = self else { return }
                         self.view?.handleActivityIndicator(.deactivate)
-                        self.view?.presentAlertController(DataResponseError.network)
-                    }
+                        self.view?.needMoreDataRepeatRequest()
+                        self.tryFetchMoreData()
+                    }))
                 }
                 
             case .failure(.connection):
@@ -88,6 +93,7 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     }
     
     func fetchDataWithFilter(_ language: String) {
+        view?.scrollTableViewToTop()
         networkService.requestLanguage = language
         removeOldFetchedRepos()
         guard let searchRequest = lastRequestText else { return }
@@ -108,6 +114,7 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     }
     
     func removeOldFetchedRepos() {
+        print(#function)
         fetchedRepos.removeAll()
         totalCount = 0
     }
