@@ -17,6 +17,10 @@
 		2663DC472269462300ED38CB /* DataResponseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC462269462300ED38CB /* DataResponseError.swift */; };
 		2663DC4A22694F7C00ED38CB /* GitRepoWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC4922694F7C00ED38CB /* GitRepoWebVC.swift */; };
 		2663DC4C22694F8F00ED38CB /* GitRepoWebVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC4B22694F8F00ED38CB /* GitRepoWebVCExtension.swift */; };
+		2663DC4E2269DF2E00ED38CB /* LanguageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC4D2269DF2E00ED38CB /* LanguageColor.swift */; };
+		2663DC51226A83E600ED38CB /* StubGitRepoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC50226A83E600ED38CB /* StubGitRepoTVC.swift */; };
+		2663DC53226A840500ED38CB /* StubGitRepoTVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC52226A840500ED38CB /* StubGitRepoTVCExtension.swift */; };
+		2663DC55226AAD0C00ED38CB /* ActivityIndicatorStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC54226AAD0C00ED38CB /* ActivityIndicatorStates.swift */; };
 		2684409122665B7C0096CF6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684409022665B7C0096CF6F /* AppDelegate.swift */; };
 		2684409322665B7C0096CF6F /* GitSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684409222665B7C0096CF6F /* GitSearchVC.swift */; };
 		2684409822665B7E0096CF6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2684409722665B7E0096CF6F /* Assets.xcassets */; };
@@ -54,6 +58,10 @@
 		2663DC462269462300ED38CB /* DataResponseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResponseError.swift; sourceTree = "<group>"; };
 		2663DC4922694F7C00ED38CB /* GitRepoWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepoWebVC.swift; sourceTree = "<group>"; };
 		2663DC4B22694F8F00ED38CB /* GitRepoWebVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitRepoWebVCExtension.swift; sourceTree = "<group>"; };
+		2663DC4D2269DF2E00ED38CB /* LanguageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageColor.swift; sourceTree = "<group>"; };
+		2663DC50226A83E600ED38CB /* StubGitRepoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubGitRepoTVC.swift; sourceTree = "<group>"; };
+		2663DC52226A840500ED38CB /* StubGitRepoTVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubGitRepoTVCExtension.swift; sourceTree = "<group>"; };
+		2663DC54226AAD0C00ED38CB /* ActivityIndicatorStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorStates.swift; sourceTree = "<group>"; };
 		2684408D22665B7B0096CF6F /* GitHubSearchReposTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubSearchReposTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2684409022665B7C0096CF6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2684409222665B7C0096CF6F /* GitSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchVC.swift; sourceTree = "<group>"; };
@@ -99,6 +107,15 @@
 				2663DC4B22694F8F00ED38CB /* GitRepoWebVCExtension.swift */,
 			);
 			path = GitRepoWebVC;
+			sourceTree = "<group>";
+		};
+		2663DC4F226A837500ED38CB /* StubGitRepoTVC */ = {
+			isa = PBXGroup;
+			children = (
+				2663DC50226A83E600ED38CB /* StubGitRepoTVC.swift */,
+				2663DC52226A840500ED38CB /* StubGitRepoTVCExtension.swift */,
+			);
+			path = StubGitRepoTVC;
 			sourceTree = "<group>";
 		};
 		2684408422665B7B0096CF6F = {
@@ -194,6 +211,8 @@
 				2663DC3C226900BE00ED38CB /* UIColorExtensions.swift */,
 				2663DC44226945F100ED38CB /* HTTPURLResponseExtension.swift */,
 				2663DC462269462300ED38CB /* DataResponseError.swift */,
+				2663DC4D2269DF2E00ED38CB /* LanguageColor.swift */,
+				2663DC54226AAD0C00ED38CB /* ActivityIndicatorStates.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -213,7 +232,8 @@
 				26C1ED9F22665E900084BF5C /* GitSearchVCExtension.swift */,
 				26C1EDA722667ABE0084BF5C /* SearchResultsTVProtocols.swift */,
 				26C1EDA922668A070084BF5C /* GitSearchSBProtocols.swift */,
-				26C1EDB62268F4680084BF5C /* GitRepoTVCell */,
+				26C1EDB62268F4680084BF5C /* GitRepoTVC */,
+				2663DC4F226A837500ED38CB /* StubGitRepoTVC */,
 			);
 			path = GitSearchVC;
 			sourceTree = "<group>";
@@ -230,13 +250,13 @@
 			path = AppDelegate/Protocols;
 			sourceTree = "<group>";
 		};
-		26C1EDB62268F4680084BF5C /* GitRepoTVCell */ = {
+		26C1EDB62268F4680084BF5C /* GitRepoTVC */ = {
 			isa = PBXGroup;
 			children = (
 				2663DC382268F58700ED38CB /* GitRepoTVC.swift */,
 				2663DC3A2268FF6600ED38CB /* GitRepoTVCExtension.swift */,
 			);
-			path = GitRepoTVCell;
+			path = GitRepoTVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,19 +365,23 @@
 				2663DC472269462300ED38CB /* DataResponseError.swift in Sources */,
 				2663DC41226915DA00ED38CB /* GitRepoTVCVMProtocol.swift in Sources */,
 				2663DC3D226900BE00ED38CB /* UIColorExtensions.swift in Sources */,
+				2663DC51226A83E600ED38CB /* StubGitRepoTVC.swift in Sources */,
 				26C1EDAA22668A070084BF5C /* GitSearchSBProtocols.swift in Sources */,
 				26C1EDB52267C64D0084BF5C /* GitSearchVCDelegate.swift in Sources */,
 				2684409322665B7C0096CF6F /* GitSearchVC.swift in Sources */,
+				2663DC53226A840500ED38CB /* StubGitRepoTVCExtension.swift in Sources */,
 				26C1EDA022665E900084BF5C /* GitSearchVCExtension.swift in Sources */,
 				26C1EDA4226666DF0084BF5C /* StringExtension.swift in Sources */,
 				2663DC4C22694F8F00ED38CB /* GitRepoWebVCExtension.swift in Sources */,
 				2663DC3B2268FF6600ED38CB /* GitRepoTVCExtension.swift in Sources */,
 				2663DC3F2269155F00ED38CB /* GitRepoTVCVM.swift in Sources */,
 				26C1ED9D22665E080084BF5C /* NetworkService.swift in Sources */,
+				2663DC55226AAD0C00ED38CB /* ActivityIndicatorStates.swift in Sources */,
 				2663DC45226945F100ED38CB /* HTTPURLResponseExtension.swift in Sources */,
 				2684409122665B7C0096CF6F /* AppDelegate.swift in Sources */,
 				26C1EDAF2267C3620084BF5C /* GitSearchTVVMProtocol.swift in Sources */,
 				26C1EDA6226667280084BF5C /* GitRepoRequest.swift in Sources */,
+				2663DC4E2269DF2E00ED38CB /* LanguageColor.swift in Sources */,
 				2663DC392268F58700ED38CB /* GitRepoTVC.swift in Sources */,
 				26C1EDB32267C52E0084BF5C /* SearchResultsTVVM.swift in Sources */,
 			);

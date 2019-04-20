@@ -14,8 +14,11 @@ extension GitSearchVC: UISearchBarDelegate {
         pendingRequestWorkItem?.cancel()
         
         let requestWorkItem = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
+            
+            self.handleActivityIndicator(.activate)
             guard let searchText = searchBar.text else { return }
-            guard let viewModel = self?.searchResultsTVVM else { return }
+            guard let viewModel = self.searchResultsTVVM else { return }
             viewModel.saveLastSearchText(searchText)
             viewModel.removeOldFetchedRepos()
             viewModel.fetchDataFor(searchText, forPageNumber: 1)
@@ -30,6 +33,7 @@ extension GitSearchVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard !searchBar.text!.isEmpty else { return }
         
+        self.handleActivityIndicator(.activate)
         guard let searchText = searchBar.text else { return }
         guard let viewModel = searchResultsTVVM else { return }
         viewModel.saveLastSearchText(searchText)

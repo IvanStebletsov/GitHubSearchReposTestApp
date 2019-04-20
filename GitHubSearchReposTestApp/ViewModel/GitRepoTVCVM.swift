@@ -20,7 +20,6 @@ class GitRepoTVCVM: GitRepoTVCVMProtocol {
     // MARK: - GitRepoTVCVMProtocol methods
     func repoName() -> String {
         guard let authorName = repoForCell.author?.name, let repoName = repoForCell.name else { return "" }
-        
         return #"\#(authorName)/\#(repoName)"#
     }
     
@@ -30,9 +29,18 @@ class GitRepoTVCVM: GitRepoTVCVMProtocol {
     }
     
     func repoProgrammingLanguage() -> String {
-        guard let language = repoForCell.language else { return "--" }
+        guard let language = repoForCell.language else { return "No language" }
         return language
     }
     
+    func repoStarRating() -> String {
+        guard let starRating = repoForCell.starRating else { return "0" }
+        if starRating / 1000 >= 1 {
+            let formattedRating = Double(starRating) / 1000
+            return String(format: "%.1f", formattedRating) + "k"
+        } else {
+            return String(starRating)
+        }
+    }
     
 }

@@ -12,8 +12,13 @@ protocol GitSearchVCDelegate: class {
     
     var needFetchMoreData: Bool { get set }
     
-    func reloadTableViewData()
+    func reloadTableViewCells(with newIndexPathsToReload: [IndexPath])
     
     func moreDataFetched()
     
+    func needMoreDataRepeatRequest()
+    
+    func presentAlertController(_ error: DataResponseError)
+    
+    func handleActivityIndicator(_ state: ActivityIndicatorStates)
 }

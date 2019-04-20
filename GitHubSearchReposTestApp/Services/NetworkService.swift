@@ -13,7 +13,7 @@ class NetworkService: Networking {
     // MARK: - Properties
     let baseUrl = "https://api.github.com/search/repositories"
     var requestQuerys = ["q": "",
-                         "per_page": "20",
+                         "per_page": "1",
                          "page": "1"]
     
     // MARK: - Methods
@@ -22,7 +22,7 @@ class NetworkService: Networking {
         var fetchedRepos = [GitRepo]()
         
         requestQuerys["q"] = String(query)
-        requestQuerys["per_page"] = "20"
+        requestQuerys["per_page"] = "30"
         requestQuerys["page"] = String(pageNumber)
         
         guard let url = baseUrl.createUrl(forRequestWith: requestQuerys) else { return }
@@ -38,14 +38,23 @@ class NetworkService: Networking {
                 return
             }
             
-            do {
-                let gitRepos = try JSONDecoder().decode(GitRepoRequest.self, from: data)
-                fetchedRepos = gitRepos.repositories ?? []
-                completion(Result.success(fetchedRepos), nil)
-            } catch {
+            guard let gitRepos = try? JSONDecoder().decode(GitRepoRequest.self, from: data), let newRepos = gitRepos.repositories else {
                 completion(Result.failure(.decoding), nil)
+                return
             }
-            
+            fetchedRepos = newRepos
+            completion(Result.success(fetchedRepos), response)
+            }.resume()
+    }
+    
+    func fetchTotalNumbersOfRepos(_ query: String, completion: @escaping (URLResponse?) -> ()) {
+        requestQuerys["q"] = String(query)
+        requestQuerys["per_page"] = "1"
+        guard let url = baseUrl.createUrl(forRequestWith: requestQuerys) else { return }
+        let urlSession = URLSession.shared
+        
+        urlSession.dataTask(with: url) { (_, response, _) in
+            completion(response)
             }.resume()
     }
 }

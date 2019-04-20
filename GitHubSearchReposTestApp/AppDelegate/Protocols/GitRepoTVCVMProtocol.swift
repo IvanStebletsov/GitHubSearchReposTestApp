@@ -16,4 +16,5 @@ protocol GitRepoTVCVMProtocol {
     
     func repoProgrammingLanguage() -> String
 
+    func repoStarRating() -> String
 }

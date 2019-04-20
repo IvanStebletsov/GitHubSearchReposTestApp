@@ -9,6 +9,8 @@
 import Foundation
 
 protocol SearchResultsTVVMProtocol {
+    
+    var currentCount: Int? { get set }
 
     func saveLastSearchText(_ text: String)
     
@@ -20,8 +22,7 @@ protocol SearchResultsTVVMProtocol {
     
     func removeOldFetchedRepos()
     
-    func cellViewModel(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol?
+    func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol?
 
     func selectRow(atIndexPath indexPath:IndexPath) -> URL?
-    
 }

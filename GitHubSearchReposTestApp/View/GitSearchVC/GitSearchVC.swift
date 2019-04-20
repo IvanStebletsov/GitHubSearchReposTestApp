@@ -15,11 +15,13 @@ class GitSearchVC: UIViewController {
     var pendingRequestWorkItem: DispatchWorkItem?
     var needFetchMoreData = false
     let cellId = "cellId"
+    let stubCellId = "stubCellId"
     
     // MARK: - UI elements
     var searchResultsTableView: UITableView!
     var searchBar: UISearchBar!
     var activityIndicatorView: UIActivityIndicatorView!
+    var gitLogoImageView: UIImageView!
     
     // MARK: - Life cicle methods
     override func viewDidLoad() {
@@ -29,6 +31,7 @@ class GitSearchVC: UIViewController {
         
         makeNavigationBarAdjustments()
         makeSearchResultsTableView()
+        makeGitLogo()
         makeSearchBar()
         addGestureRecognizer()
         hideKeyboardByTapAnywhere()

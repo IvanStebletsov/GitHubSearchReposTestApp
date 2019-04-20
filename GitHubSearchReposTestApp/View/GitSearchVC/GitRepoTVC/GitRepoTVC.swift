@@ -17,12 +17,15 @@ class GitRepoTVC: UITableViewCell {
                 repoNameLabel.text = "Error"
                 repoDescriptionLabel.text = "Error"
                 repoProgrammingLanguageLabel.text = "Error"
+                starRatingLabel.text = "0"
                 return
             }
             
             repoNameLabel.text = viewModel.repoName()
             repoDescriptionLabel.text = viewModel.repoDescription()
             repoProgrammingLanguageLabel.text = viewModel.repoProgrammingLanguage()
+            languageColor.backgroundColor = colorFor(language: viewModel.repoProgrammingLanguage())
+            starRatingLabel.text = viewModel.repoStarRating()
         }
     }
     
@@ -32,15 +35,19 @@ class GitRepoTVC: UITableViewCell {
     var repoDescriptionLabel: UILabel!
     var languageColor: UIView!
     var repoProgrammingLanguageLabel: UILabel!
+    var starRatingLabel: UILabel!
     
     // MARK: - Initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
+        selectionStyle = .none
+        
         makeCellBackgroundView()
         makeRepoNameLabel()
         makeRepoDescriptionLabel()
         makeProgrammingLanguageLabel()
+        makeStrsRatingLabel()
     }
     
     required init?(coder aDecoder: NSCoder) {

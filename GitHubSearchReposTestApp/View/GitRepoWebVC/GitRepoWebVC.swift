@@ -16,10 +16,13 @@ class GitRepoWebVC: UIViewController {
     
     // MARK: - UI elements
     var webView: WKWebView!
+    var animatedView: UIView!
     
     // MARK: - Life cicle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .clear
+        
         makeWebView()
         addGestureRecognizer()
     }
@@ -27,8 +30,9 @@ class GitRepoWebVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let url = url else { return }
-        
+
         let request = URLRequest(url: url)
         webView.load(request)
+        makeAnimatedBackground()
     }
 }

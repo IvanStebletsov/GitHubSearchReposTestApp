@@ -24,6 +24,7 @@ struct GitRepo: Codable {
     var author: RepoAuthor?
     var language: String?
     var description: String?
+    var starRating: Int?
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -31,6 +32,7 @@ struct GitRepo: Codable {
         case author = "owner"
         case language
         case description
+        case starRating = "stargazers_count"
     }
 }
 
