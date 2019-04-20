@@ -21,6 +21,13 @@
 		2663DC51226A83E600ED38CB /* StubGitRepoTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC50226A83E600ED38CB /* StubGitRepoTVC.swift */; };
 		2663DC53226A840500ED38CB /* StubGitRepoTVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC52226A840500ED38CB /* StubGitRepoTVCExtension.swift */; };
 		2663DC55226AAD0C00ED38CB /* ActivityIndicatorStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC54226AAD0C00ED38CB /* ActivityIndicatorStates.swift */; };
+		2663DC57226B592B00ED38CB /* LanguageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC56226B592B00ED38CB /* LanguageFilter.swift */; };
+		2663DC5A226B780800ED38CB /* GitSearchFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC59226B780800ED38CB /* GitSearchFilterVC.swift */; };
+		2663DC5C226B784800ED38CB /* GitSearchFilterVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC5B226B784800ED38CB /* GitSearchFilterVCExtension.swift */; };
+		2663DC5E226B819700ED38CB /* LanguagePickerViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC5D226B819700ED38CB /* LanguagePickerViewProtocols.swift */; };
+		2663DC60226B899600ED38CB /* GitSearchFilterVCVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC5F226B899600ED38CB /* GitSearchFilterVCVM.swift */; };
+		2663DC62226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC61226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift */; };
+		2663DC64226B987000ED38CB /* GitSearchFilterVCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC63226B987000ED38CB /* GitSearchFilterVCDelegate.swift */; };
 		2684409122665B7C0096CF6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684409022665B7C0096CF6F /* AppDelegate.swift */; };
 		2684409322665B7C0096CF6F /* GitSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684409222665B7C0096CF6F /* GitSearchVC.swift */; };
 		2684409822665B7E0096CF6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2684409722665B7E0096CF6F /* Assets.xcassets */; };
@@ -62,6 +69,13 @@
 		2663DC50226A83E600ED38CB /* StubGitRepoTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubGitRepoTVC.swift; sourceTree = "<group>"; };
 		2663DC52226A840500ED38CB /* StubGitRepoTVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubGitRepoTVCExtension.swift; sourceTree = "<group>"; };
 		2663DC54226AAD0C00ED38CB /* ActivityIndicatorStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorStates.swift; sourceTree = "<group>"; };
+		2663DC56226B592B00ED38CB /* LanguageFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageFilter.swift; sourceTree = "<group>"; };
+		2663DC59226B780800ED38CB /* GitSearchFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVC.swift; sourceTree = "<group>"; };
+		2663DC5B226B784800ED38CB /* GitSearchFilterVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVCExtension.swift; sourceTree = "<group>"; };
+		2663DC5D226B819700ED38CB /* LanguagePickerViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerViewProtocols.swift; sourceTree = "<group>"; };
+		2663DC5F226B899600ED38CB /* GitSearchFilterVCVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVCVM.swift; sourceTree = "<group>"; };
+		2663DC61226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVCVMProtocol.swift; sourceTree = "<group>"; };
+		2663DC63226B987000ED38CB /* GitSearchFilterVCDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVCDelegate.swift; sourceTree = "<group>"; };
 		2684408D22665B7B0096CF6F /* GitHubSearchReposTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubSearchReposTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2684409022665B7C0096CF6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2684409222665B7C0096CF6F /* GitSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchVC.swift; sourceTree = "<group>"; };
@@ -116,6 +130,16 @@
 				2663DC52226A840500ED38CB /* StubGitRepoTVCExtension.swift */,
 			);
 			path = StubGitRepoTVC;
+			sourceTree = "<group>";
+		};
+		2663DC58226B77E300ED38CB /* GitSearchFilterVC */ = {
+			isa = PBXGroup;
+			children = (
+				2663DC59226B780800ED38CB /* GitSearchFilterVC.swift */,
+				2663DC5B226B784800ED38CB /* GitSearchFilterVCExtension.swift */,
+				2663DC5D226B819700ED38CB /* LanguagePickerViewProtocols.swift */,
+			);
+			path = GitSearchFilterVC;
 			sourceTree = "<group>";
 		};
 		2684408422665B7B0096CF6F = {
@@ -183,6 +207,7 @@
 			children = (
 				26C1ED9E22665E4A0084BF5C /* GitSearchVC */,
 				2663DC4822694F4200ED38CB /* GitRepoWebVC */,
+				2663DC58226B77E300ED38CB /* GitSearchFilterVC */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -199,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				26C1EDB22267C52E0084BF5C /* SearchResultsTVVM.swift */,
+				2663DC5F226B899600ED38CB /* GitSearchFilterVCVM.swift */,
 				2663DC3E2269155F00ED38CB /* GitRepoTVCVM.swift */,
 			);
 			path = ViewModel;
@@ -213,6 +239,7 @@
 				2663DC462269462300ED38CB /* DataResponseError.swift */,
 				2663DC4D2269DF2E00ED38CB /* LanguageColor.swift */,
 				2663DC54226AAD0C00ED38CB /* ActivityIndicatorStates.swift */,
+				2663DC56226B592B00ED38CB /* LanguageFilter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -242,8 +269,10 @@
 			isa = PBXGroup;
 			children = (
 				26C1EDB42267C64D0084BF5C /* GitSearchVCDelegate.swift */,
+				2663DC63226B987000ED38CB /* GitSearchFilterVCDelegate.swift */,
 				26C1EDAE2267C3620084BF5C /* GitSearchTVVMProtocol.swift */,
 				2663DC40226915DA00ED38CB /* GitRepoTVCVMProtocol.swift */,
+				2663DC61226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift */,
 				2663DC42226945A200ED38CB /* NetworkingServiceProtocol.swift */,
 			);
 			name = Protocols;
@@ -364,23 +393,30 @@
 				2663DC4A22694F7C00ED38CB /* GitRepoWebVC.swift in Sources */,
 				2663DC472269462300ED38CB /* DataResponseError.swift in Sources */,
 				2663DC41226915DA00ED38CB /* GitRepoTVCVMProtocol.swift in Sources */,
+				2663DC57226B592B00ED38CB /* LanguageFilter.swift in Sources */,
 				2663DC3D226900BE00ED38CB /* UIColorExtensions.swift in Sources */,
+				2663DC5E226B819700ED38CB /* LanguagePickerViewProtocols.swift in Sources */,
 				2663DC51226A83E600ED38CB /* StubGitRepoTVC.swift in Sources */,
 				26C1EDAA22668A070084BF5C /* GitSearchSBProtocols.swift in Sources */,
 				26C1EDB52267C64D0084BF5C /* GitSearchVCDelegate.swift in Sources */,
 				2684409322665B7C0096CF6F /* GitSearchVC.swift in Sources */,
 				2663DC53226A840500ED38CB /* StubGitRepoTVCExtension.swift in Sources */,
 				26C1EDA022665E900084BF5C /* GitSearchVCExtension.swift in Sources */,
+				2663DC64226B987000ED38CB /* GitSearchFilterVCDelegate.swift in Sources */,
 				26C1EDA4226666DF0084BF5C /* StringExtension.swift in Sources */,
 				2663DC4C22694F8F00ED38CB /* GitRepoWebVCExtension.swift in Sources */,
 				2663DC3B2268FF6600ED38CB /* GitRepoTVCExtension.swift in Sources */,
 				2663DC3F2269155F00ED38CB /* GitRepoTVCVM.swift in Sources */,
 				26C1ED9D22665E080084BF5C /* NetworkService.swift in Sources */,
+				2663DC5C226B784800ED38CB /* GitSearchFilterVCExtension.swift in Sources */,
 				2663DC55226AAD0C00ED38CB /* ActivityIndicatorStates.swift in Sources */,
+				2663DC5A226B780800ED38CB /* GitSearchFilterVC.swift in Sources */,
 				2663DC45226945F100ED38CB /* HTTPURLResponseExtension.swift in Sources */,
 				2684409122665B7C0096CF6F /* AppDelegate.swift in Sources */,
+				2663DC60226B899600ED38CB /* GitSearchFilterVCVM.swift in Sources */,
 				26C1EDAF2267C3620084BF5C /* GitSearchTVVMProtocol.swift in Sources */,
 				26C1EDA6226667280084BF5C /* GitRepoRequest.swift in Sources */,
+				2663DC62226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift in Sources */,
 				2663DC4E2269DF2E00ED38CB /* LanguageColor.swift in Sources */,
 				2663DC392268F58700ED38CB /* GitRepoTVC.swift in Sources */,
 				26C1EDB32267C52E0084BF5C /* SearchResultsTVVM.swift in Sources */,

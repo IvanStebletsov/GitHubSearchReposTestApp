@@ -12,15 +12,18 @@ enum DataResponseError: Error {
     case network
     case connection
     case decoding
+    case request
     
     var reason: String {
         switch self {
         case .network:
-            return "An error occurred while fetching data"
+            return "Oops... We can't retrieve data properly"
+        case .request:
+            return "Oops... There is nothing on such a request"
         case .connection:
             return "Ooops... We have some problems with Internet connecton"
         case .decoding:
-            return "An error occurred while decoding data"
+            return "Oops... We can't decode data"
         }
     }
 }

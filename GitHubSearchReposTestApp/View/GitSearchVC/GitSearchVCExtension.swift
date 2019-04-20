@@ -16,6 +16,7 @@ extension GitSearchVC {
         navigationController?.navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.1405375302, green: 0.1605641544, blue: 0.1772543788, alpha: 1)
+        navigationController?.navigationBar.barStyle = .black
         navigationItem.title = "GitHub"
     }
     
@@ -55,10 +56,40 @@ extension GitSearchVC {
         searchResultsTableView.addSubview(gitLogoImageView)
         
         let gitLogoImageViewConstraints = [
-            gitLogoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            gitLogoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -(navigationController?.navigationBar.frame.height)! - 5),
             gitLogoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             gitLogoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4)]
         NSLayoutConstraint.activate(gitLogoImageViewConstraints)
+    }
+    
+    func makeFilterButton() {
+        let filterButton = UIButton()
+        filterButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        filterButton.layer.cornerRadius = 25
+        filterButton.backgroundColor = #colorLiteral(red: 0.1405375302, green: 0.1605641544, blue: 0.1772543788, alpha: 1)
+        filterButton.layer.shouldRasterize = true
+        filterButton.layer.rasterizationScale = UIScreen.main.nativeScale
+        filterButton.layer.shadowColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        filterButton.layer.shadowOpacity = 0.1
+        filterButton.layer.shadowRadius = 3
+        filterButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+        
+        let image = UIImage(named: "filterSettings")
+        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
+        filterButton.setImage(tintedImage, for: .normal)
+        filterButton.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        filterButton.addTarget(self, action: #selector(presentGitSearchFilterVC), for: .touchUpInside)
+        
+        view.addSubview(filterButton)
+        
+        let filterButtonConstraints = [
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.widthAnchor.constraint(equalTo: filterButton.heightAnchor),
+            filterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            filterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)]
+        NSLayoutConstraint.activate(filterButtonConstraints)
     }
     
     func makeSearchBar() {
@@ -126,9 +157,11 @@ extension GitSearchVC {
     }
     
     @objc func clearSearchResultsTableView() {
+        searchResultsTVVM.choseRequestLanguage(.javaScript)
         searchResultsTVVM.removeOldFetchedRepos()
         needFetchMoreData = true
         searchResultsTableView.reloadData()
+        searchBar.text = ""
     }
     
     // MARK: - Helpers methods for prefetching
@@ -140,6 +173,15 @@ extension GitSearchVC {
         let indexPathsForVisibleRows = searchResultsTableView.indexPathsForVisibleRows ?? []
         let indexPathsIntersection = Set(indexPathsForVisibleRows).intersection(indexPaths)
         return Array(indexPathsIntersection)
+    }
+    
+    // MARK: - Present GitSearchFilterVC
+    @objc func presentGitSearchFilterVC() {
+        let gitSearchFilterVC = GitSearchFilterVC()
+        gitSearchFilterVC.gitSearchFilterVCVM = GitSearchFilterVCVM(view: gitSearchFilterVC, searchResultsTVVM: searchResultsTVVM)
+        gitSearchFilterVC.modalPresentationStyle = .overCurrentContext
+        
+        present(gitSearchFilterVC, animated: true, completion: nil)
     }
 }
 
@@ -168,10 +210,6 @@ extension GitSearchVC: GitSearchVCDelegate {
     
     func moreDataFetched() {
         needFetchMoreData = false
-    }
-    
-    func needMoreDataRepeatRequest() {
-        needFetchMoreData = true
     }
     
     func presentAlertController(_ error: DataResponseError) {

@@ -27,14 +27,21 @@ class GitSearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.9643666148, green: 0.9724945426, blue: 0.9806874394, alpha: 1)
+        self.setNeedsStatusBarAppearanceUpdate()
+        
         searchResultsTVVM = SearchResultsTVVM(view: self)
         
         makeNavigationBarAdjustments()
         makeSearchResultsTableView()
         makeGitLogo()
         makeSearchBar()
+        makeFilterButton()
         addGestureRecognizer()
         hideKeyboardByTapAnywhere()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 

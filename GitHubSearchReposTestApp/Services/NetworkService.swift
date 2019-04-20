@@ -15,26 +15,40 @@ class NetworkService: Networking {
     var requestQuerys = ["q": "",
                          "per_page": "1",
                          "page": "1"]
+    var requestLanguage = "Default"
     
     // MARK: - Methods
     func fetchGitReposFor(_ query: String, forPageNumber pageNumber: Int, completion: @escaping ((Result<[GitRepo], DataResponseError>, URLResponse?) -> ())) {
         
         var fetchedRepos = [GitRepo]()
         
-        requestQuerys["q"] = String(query)
+        if requestLanguage != "Default" {
+            requestQuerys["q"] = String(query)+"+language:\(requestLanguage)"
+        } else {
+            requestQuerys["q"] = String(query)
+        }
+        
         requestQuerys["per_page"] = "30"
         requestQuerys["page"] = String(pageNumber)
         
         guard let url = baseUrl.createUrl(forRequestWith: requestQuerys) else { return }
-        
+
         let urlSession = URLSession.shared
         
         urlSession.dataTask(with: url) { (data, response, error) in
-            
+
             if error != nil { completion(Result.failure(.connection), nil) }
             
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.hasSuccessStatusCode, let data = data else {
-                completion(Result.failure(.network), response)
+            guard let httpResponse = response as? HTTPURLResponse, let data = data else { return }
+            
+            guard httpResponse.hasSuccessStatusCode else {
+                let httpResponse = response as! HTTPURLResponse
+                
+                if httpResponse.statusCode != 403 {
+                    completion(Result.failure(.request), response)
+                } else {
+                    completion(Result.failure(.network), response)
+                }
                 return
             }
             
@@ -48,9 +62,16 @@ class NetworkService: Networking {
     }
     
     func fetchTotalNumbersOfRepos(_ query: String, completion: @escaping (URLResponse?) -> ()) {
-        requestQuerys["q"] = String(query)
         requestQuerys["per_page"] = "1"
+        
+        if requestLanguage != "Default" {
+            requestQuerys["q"] = String(query)+"+language:\(requestLanguage)"
+        } else {
+            requestQuerys["q"] = String(query)
+        }
+        
         guard let url = baseUrl.createUrl(forRequestWith: requestQuerys) else { return }
+
         let urlSession = URLSession.shared
         
         urlSession.dataTask(with: url) { (_, response, _) in

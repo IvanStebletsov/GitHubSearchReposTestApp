@@ -43,6 +43,7 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 
             case .success(let newRepos):
                 guard let self = self else { return }
+                
                 self.fetchedPages = page
                 self.fetchedRepos += newRepos
                 self.view!.moreDataFetched()
@@ -55,39 +56,55 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 
             case .failure(.network):
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 403 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: DispatchWorkItem.init(block: { [weak self] in
-                        guard let self = self else { return }
-                        self.view!.needMoreDataRepeatRequest()
-                        self.tryFetchMoreData()
-                    }))
+                    guard let self = self else { return }
+                    DispatchQueue.main.async {
+                        self.view?.handleActivityIndicator(.deactivate)
+                        self.view?.presentAlertController(DataResponseError.network)
+                    }
                 }
                 
             case .failure(.connection):
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     self.view?.handleActivityIndicator(.deactivate)
-                    self.view!.presentAlertController(DataResponseError.connection)
+                    self.view?.presentAlertController(DataResponseError.connection)
                 }
                 
             case .failure(.decoding):
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                 self.view?.handleActivityIndicator(.deactivate)
-                self.view!.presentAlertController(DataResponseError.decoding)
+                self.view?.presentAlertController(DataResponseError.decoding)
+                }
+                
+            case .failure(.request):
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.view?.handleActivityIndicator(.deactivate)
+                    self.view?.presentAlertController(DataResponseError.request)
                 }
             }
         }
     }
     
-    func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol? {
-        guard !fetchedRepos.isEmpty else { return nil }
-        return GitRepoTVCVM(repoForCell: fetchedRepos[indexPath.row])
+    func fetchDataWithFilter(_ language: String) {
+        networkService.requestLanguage = language
+        removeOldFetchedRepos()
+        guard let searchRequest = lastRequestText else { return }
+        self.view?.handleActivityIndicator(.activate)
+        self.fetchDataFor(searchRequest, forPageNumber: 1)
     }
     
     func tryFetchMoreData() {
         self.view?.handleActivityIndicator(.activate)
         guard view!.needFetchMoreData, let requestText = lastRequestText, let pages = fetchedPages else { return }
         fetchDataFor(requestText, forPageNumber: pages + 1)
+    }
+    
+    
+    func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol? {
+        guard !fetchedRepos.isEmpty else { return nil }
+        return GitRepoTVCVM(repoForCell: fetchedRepos[indexPath.row])
     }
     
     func removeOldFetchedRepos() {
@@ -104,6 +121,10 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
         guard let repoUrl = fetchedRepos[indexPath.row].url else { return nil }
         guard let url = URL(string: repoUrl) else { return nil }
         return url
+    }
+    
+    func choseRequestLanguage(_ language: LanguageFilter) {
+        networkService.requestLanguage = language.rawValue
     }
     
     private func totalNumberOfRepos(_ response: URLResponse) -> Int {

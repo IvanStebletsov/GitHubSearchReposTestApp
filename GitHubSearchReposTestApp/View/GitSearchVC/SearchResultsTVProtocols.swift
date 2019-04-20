@@ -18,7 +18,6 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
         default:
             gitLogoImageView.isHidden = true
         }
-        
         return searchResultsTVVM.numberOfRows()
     }
     
@@ -69,8 +68,11 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
                                         cell.stubRepoProgrammingLanguageLabelView.alpha = 0.5
                                         cell.stubStarIconView.alpha = 0.5
                                         cell.stubStarRatingLabelView.alpha = 0.5 },
-                                    completion: nil)
-        }
+                                    completion: nil)}
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.text = ""
     }
     
     // MARK: - UITableViewDataSourcePrefetching protocls

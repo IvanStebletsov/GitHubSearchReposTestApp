@@ -11,6 +11,8 @@ import Foundation
 protocol SearchResultsTVVMProtocol {
     
     var currentCount: Int? { get set }
+    
+    func choseRequestLanguage(_ language: LanguageFilter)
 
     func saveLastSearchText(_ text: String)
     
@@ -25,4 +27,6 @@ protocol SearchResultsTVVMProtocol {
     func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol?
 
     func selectRow(atIndexPath indexPath:IndexPath) -> URL?
+    
+    func fetchDataWithFilter(_ language: String)
 }

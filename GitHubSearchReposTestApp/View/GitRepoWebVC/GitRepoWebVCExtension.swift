@@ -42,9 +42,9 @@ extension GitRepoWebVC {
         
         let webViewConstarints = [
             webView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            webView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            webView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -5),
             webView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95),
-            webView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.9)]
+            webView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.85)]
         NSLayoutConstraint.activate(webViewConstarints)
     }
     
@@ -57,13 +57,16 @@ extension GitRepoWebVC {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(unwindGitRepoWebVC))
         tapRecognizer.cancelsTouchesInView = false
+        animatedView.addGestureRecognizer(tapRecognizer)
     }
     
     // MARK: - Transition method
     @objc func unwindGitRepoWebVC() {
         UIView.animate(withDuration: 0.5,
                        animations: { [weak self] in
-                        self?.animatedView.alpha = 0 }) { (_) in
+                        guard let self = self else { return }
+                        self.webView.alpha = 0
+                        self.animatedView.alpha = 0 }) { (_) in
                             self.dismiss(animated: true, completion: nil) }
     }
 }
