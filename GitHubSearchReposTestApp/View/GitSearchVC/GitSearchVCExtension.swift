@@ -189,7 +189,7 @@ extension GitSearchVC {
 extension GitSearchVC: GitSearchVCDelegate {
     
     func scrollTableViewToTop() {
-        searchResultsTableView.setContentOffset(.zero, animated: true)
+        searchResultsTableView.setContentOffset(.zero, animated: false)
         searchBar.resignFirstResponder()
     }
     
@@ -209,12 +209,12 @@ extension GitSearchVC: GitSearchVCDelegate {
     }
     
     func reloadTableViewCells(with newIndexPathsToReload: [IndexPath]) {
-        guard newIndexPathsToReload.count > 30 else {
+        if searchResultsTVVM.numberOfFetchedPages() > 1 {
+            let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+            searchResultsTableView.reloadRows(at: indexPathsToReload, with: .automatic)
+        } else {
             searchResultsTableView.reloadData()
-            return
         }
-        let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
-        searchResultsTableView.reloadRows(at: indexPathsToReload, with: .fade)
     }
     
     func moreDataFetched() {

@@ -19,6 +19,7 @@ extension GitSearchVC: UISearchBarDelegate {
             self.handleActivityIndicator(.activate)
             guard let searchText = searchBar.text else { return }
             guard let viewModel = self.searchResultsTVVM else { return }
+            
             viewModel.saveLastSearchText(searchText)
             viewModel.removeOldFetchedRepos()
             viewModel.fetchDataFor(searchText, forPageNumber: 1)
@@ -37,6 +38,7 @@ extension GitSearchVC: UISearchBarDelegate {
         self.handleActivityIndicator(.activate)
         guard let searchText = searchBar.text else { return }
         guard let viewModel = searchResultsTVVM else { return }
+        
         viewModel.saveLastSearchText(searchText)
         viewModel.removeOldFetchedRepos()
         viewModel.fetchDataFor(searchText, forPageNumber: 1)

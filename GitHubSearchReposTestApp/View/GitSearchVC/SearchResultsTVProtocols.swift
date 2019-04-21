@@ -84,5 +84,4 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
         }
     }
     
-    
 }

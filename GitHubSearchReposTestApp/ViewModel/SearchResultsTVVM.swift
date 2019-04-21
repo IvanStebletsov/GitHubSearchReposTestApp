@@ -16,14 +16,19 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     private var pendingRequestWorkItem: DispatchWorkItem? // TODO
     private var selectedIndexPath: IndexPath?
     private var lastRequestText: String?
-    private var fetchedPages: Int?
+    var fetchedPages: Int?
     private var totalCount = 0 {
         willSet {
             print("Total count: \(newValue)")
         }
     }
     var currentCount: Int?
-    private var fetchedRepos = [GitRepo]() { willSet { currentCount = newValue.count } }
+    private var fetchedRepos = [GitRepo]() {
+        willSet {
+            currentCount = newValue.count
+            
+        }
+    }
     
     // MARK: - Initialization
     init(view: GitSearchVCDelegate) {
@@ -34,6 +39,11 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     // MARK: - SearchResultsTVVMProtocol methods
     func numberOfRows() -> Int {
         return totalCount
+    }
+    
+    func numberOfFetchedPages() -> Int {
+        guard let page = fetchedPages else { return 1 }
+        return page
     }
     
     func selectedLanguageRow() -> Int {
@@ -56,16 +66,15 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 
             case .success(let newRepos):
                 guard let self = self else { return }
-                
                 self.fetchedPages = page
                 self.fetchedRepos += newRepos
                 self.view?.moreDataFetched()
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    self.scrollTableViewToTop()
                     self.view?.reloadTableViewCells(with: self.calculateIndexPathsToReload(from: newRepos))
                     self.view?.handleActivityIndicator(.deactivate)
+                    self.scrollTableViewToTop()
                 }
                 
             case .failure(.network):
@@ -169,6 +178,7 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     private func calculateIndexPathsToReload(from newRepos: [GitRepo]) -> [IndexPath] {
         let startIndex = fetchedRepos.count - newRepos.count
         let endIndex = startIndex + newRepos.count
+        
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
     }
     

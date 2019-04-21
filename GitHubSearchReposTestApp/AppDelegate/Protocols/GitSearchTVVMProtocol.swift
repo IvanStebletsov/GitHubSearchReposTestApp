@@ -24,6 +24,8 @@ protocol SearchResultsTVVMProtocol {
     
     func numberOfRows() -> Int
     
+    func numberOfFetchedPages() -> Int 
+    
     func fetchDataFor(_ searchText: String, forPageNumber page: Int)
     
     func tryFetchMoreData()
