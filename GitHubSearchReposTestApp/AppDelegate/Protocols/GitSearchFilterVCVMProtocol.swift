@@ -15,4 +15,9 @@ protocol GitSearchFilterVCVMProtocol {
     func languageFor(_ row: Int) -> String
     
     func applySelectedFilter()
+    
+    func selectedLanguageRow() -> Int
+    
+    func saveSelectedLanguage(_ row: Int)
+    
 }

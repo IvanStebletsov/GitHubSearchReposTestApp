@@ -33,4 +33,12 @@ class GitSearchFilterVCVM: GitSearchFilterVCVMProtocol {
         searchResultsTVVM.fetchDataWithFilter(view.selectedLanguageFilter)
     }
     
+    func selectedLanguageRow() -> Int {
+        return searchResultsTVVM.selectedLanguageRow()
+    }
+    
+    func saveSelectedLanguage(_ row: Int) {
+        searchResultsTVVM.saveSelectedLanguage(row)
+    }
+    
 }

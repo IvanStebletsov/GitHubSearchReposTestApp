@@ -10,6 +10,8 @@ import UIKit
 
 protocol GitSearchVCDelegate: class {
     
+    var selectedLanguageRow: Int { get set }
+    
     var needFetchMoreData: Bool { get set }
     
     func reloadTableViewCells(with newIndexPathsToReload: [IndexPath])

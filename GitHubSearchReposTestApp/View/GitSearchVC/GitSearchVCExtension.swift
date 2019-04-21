@@ -157,8 +157,8 @@ extension GitSearchVC {
     }
     
     @objc func clearSearchResultsTableView() {
-        searchResultsTVVM.choseRequestLanguage(.javaScript)
         searchResultsTVVM.removeOldFetchedRepos()
+        searchResultsTVVM.clearLastRequestText()
         needFetchMoreData = true
         searchResultsTableView.reloadData()
         searchBar.text = ""
@@ -190,6 +190,7 @@ extension GitSearchVC: GitSearchVCDelegate {
     
     func scrollTableViewToTop() {
         searchResultsTableView.setContentOffset(.zero, animated: true)
+        searchBar.resignFirstResponder()
     }
     
     func needMoreDataRepeatRequest() {

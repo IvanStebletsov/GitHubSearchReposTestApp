@@ -12,7 +12,15 @@ class GitSearchFilterVC: UIViewController {
     
     // MARK: - Properties
     var gitSearchFilterVCVM: GitSearchFilterVCVMProtocol!
-    var selectedLanguageFilter = "Default"
+    var selectedLanguageFilter = "Default" {
+        didSet { oldSelectedLanguageFilter = oldValue }
+    }
+    var oldSelectedLanguageFilter = "Default"
+    
+    var selectedLanguageRow = 0 {
+        didSet { oldSelectedLanguageRow = oldValue }
+    }
+    var oldSelectedLanguageRow = 0
     
     // MARK: - UI elements
     var animatedView: UIView!
@@ -30,8 +38,8 @@ class GitSearchFilterVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         makeAnimatedBackground()
         makeFilterButton()
+        addGestureRecognizer()
     }
 }

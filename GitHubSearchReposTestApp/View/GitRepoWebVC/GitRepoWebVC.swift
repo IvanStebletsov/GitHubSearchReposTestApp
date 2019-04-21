@@ -17,6 +17,12 @@ class GitRepoWebVC: UIViewController {
     // MARK: - UI elements
     var webView: WKWebView!
     var animatedView: UIView!
+    var refteshButton: UIButton!
+    var forwardButton: UIButton!
+    var backButton: UIButton!
+    var unwindButton: UIButton!
+    var activityIndicatorBackgroundView: UIView!
+    var activityIndicatorView: UIActivityIndicatorView!
     
     // MARK: - Life cicle methods
     override func viewDidLoad() {
@@ -24,6 +30,7 @@ class GitRepoWebVC: UIViewController {
         view.backgroundColor = .clear
         
         makeWebView()
+        makeRefreshActivityIndicator()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,6 +40,10 @@ class GitRepoWebVC: UIViewController {
         let request = URLRequest(url: url)
         webView.load(request)
         makeAnimatedBackground()
-        addGestureRecognizer()
+        makeRefreshButton()
+        makeForwardButton()
+        makeBackButton()
+        makeUnwindButton()
     }
+    
 }

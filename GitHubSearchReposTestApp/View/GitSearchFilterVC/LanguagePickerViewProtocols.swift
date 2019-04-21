@@ -24,6 +24,7 @@ extension GitSearchFilterVC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedLanguageFilter = gitSearchFilterVCVM.languageFor(row)
+        selectedLanguageRow = row
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {

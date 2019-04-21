@@ -36,6 +36,15 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
         return totalCount
     }
     
+    func selectedLanguageRow() -> Int {
+        guard let row = view?.selectedLanguageRow else { return 0 }
+        return row
+    }
+    
+    func saveSelectedLanguage(_ row: Int) {
+        view?.selectedLanguageRow = row
+    }
+    
     func fetchDataFor(_ searchText: String, forPageNumber page: Int) {
         networkService.fetchTotalNumbersOfRepos(searchText, completion: { [unowned self] (response) in
             guard let response = response else { return }
@@ -50,12 +59,13 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 
                 self.fetchedPages = page
                 self.fetchedRepos += newRepos
-                self.view!.moreDataFetched()
+                self.view?.moreDataFetched()
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
                     self.view?.reloadTableViewCells(with: self.calculateIndexPathsToReload(from: newRepos))
                     self.view?.handleActivityIndicator(.deactivate)
+                    self.view?.scrollTableViewToTop()
                 }
                 
             case .failure(.network):
@@ -114,9 +124,12 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     }
     
     func removeOldFetchedRepos() {
-        print(#function)
         fetchedRepos.removeAll()
         totalCount = 0
+    }
+    
+    func clearLastRequestText() {
+        lastRequestText = ""
     }
     
     func saveLastSearchText(_ text: String) {

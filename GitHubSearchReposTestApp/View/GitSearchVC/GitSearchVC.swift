@@ -16,6 +16,11 @@ class GitSearchVC: UIViewController {
     var needFetchMoreData = false
     let cellId = "cellId"
     let stubCellId = "stubCellId"
+    var selectedLanguageRow = 0 {
+        willSet {
+            print(newValue)
+        }
+    }
     
     // MARK: - UI elements
     var searchResultsTableView: UITableView!

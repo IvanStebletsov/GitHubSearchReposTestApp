@@ -15,6 +15,7 @@ extension StubGitRepoTVC {
         cellBackgroundView = UIView()
         cellBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         
+        cellBackgroundView.isUserInteractionEnabled = false
         cellBackgroundView.backgroundColor = .white
         cellBackgroundView.layer.cornerRadius = 10
         cellBackgroundView.layer.shouldRasterize = true
@@ -40,6 +41,7 @@ extension StubGitRepoTVC {
         stubRepoIconView = UIView()
         stubRepoIconView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubRepoIconView.isUserInteractionEnabled = false
         stubRepoIconView.layer.cornerRadius = 10
         stubRepoIconView.layer.shouldRasterize = true
         stubRepoIconView.layer.rasterizationScale = UIScreen.main.nativeScale
@@ -57,6 +59,7 @@ extension StubGitRepoTVC {
         stubRepoNameLabelView = UIView()
         stubRepoNameLabelView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubRepoNameLabelView.isUserInteractionEnabled = false
         stubRepoNameLabelView.layer.cornerRadius = 10
         stubRepoNameLabelView.layer.shouldRasterize = true
         stubRepoNameLabelView.layer.rasterizationScale = UIScreen.main.nativeScale
@@ -76,6 +79,7 @@ extension StubGitRepoTVC {
         stubRepoDescriptionLabelView = UIView()
         stubRepoDescriptionLabelView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubRepoDescriptionLabelView.isUserInteractionEnabled = false
         stubRepoDescriptionLabelView.layer.cornerRadius = 10
         stubRepoDescriptionLabelView.layer.shouldRasterize = true
         stubRepoDescriptionLabelView.layer.rasterizationScale = UIScreen.main.nativeScale
@@ -95,6 +99,7 @@ extension StubGitRepoTVC {
         stubLanguageColorView = UIView()
         stubLanguageColorView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubLanguageColorView.isUserInteractionEnabled = false
         stubLanguageColorView.layer.cornerRadius = 10
         stubLanguageColorView.layer.shouldRasterize = true
         stubLanguageColorView.layer.rasterizationScale = UIScreen.main.nativeScale
@@ -113,6 +118,7 @@ extension StubGitRepoTVC {
         stubRepoProgrammingLanguageLabelView = UIView()
         stubRepoProgrammingLanguageLabelView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubRepoProgrammingLanguageLabelView.isUserInteractionEnabled = false
         stubRepoProgrammingLanguageLabelView.layer.cornerRadius = 10
         stubRepoProgrammingLanguageLabelView.layer.shouldRasterize = true
         stubRepoProgrammingLanguageLabelView.layer.rasterizationScale = UIScreen.main.nativeScale
@@ -132,6 +138,7 @@ extension StubGitRepoTVC {
         stubStarIconView = UIView()
         stubStarIconView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubStarIconView.isUserInteractionEnabled = false
         stubStarIconView.layer.cornerRadius = 10
         stubStarIconView.layer.shouldRasterize = true
         stubStarIconView.layer.rasterizationScale = UIScreen.main.nativeScale
@@ -150,6 +157,7 @@ extension StubGitRepoTVC {
         stubStarRatingLabelView = UIView()
         stubStarRatingLabelView.translatesAutoresizingMaskIntoConstraints = false
         
+        stubStarRatingLabelView.isUserInteractionEnabled = false
         stubStarRatingLabelView.layer.cornerRadius = 10
         stubStarRatingLabelView.layer.shouldRasterize = true
         stubStarRatingLabelView.layer.rasterizationScale = UIScreen.main.nativeScale

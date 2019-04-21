@@ -271,8 +271,8 @@
 				26C1EDB42267C64D0084BF5C /* GitSearchVCDelegate.swift */,
 				2663DC63226B987000ED38CB /* GitSearchFilterVCDelegate.swift */,
 				26C1EDAE2267C3620084BF5C /* GitSearchTVVMProtocol.swift */,
-				2663DC40226915DA00ED38CB /* GitRepoTVCVMProtocol.swift */,
 				2663DC61226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift */,
+				2663DC40226915DA00ED38CB /* GitRepoTVCVMProtocol.swift */,
 				2663DC42226945A200ED38CB /* NetworkingServiceProtocol.swift */,
 			);
 			name = Protocols;

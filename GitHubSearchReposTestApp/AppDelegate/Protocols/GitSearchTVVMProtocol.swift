@@ -12,6 +12,10 @@ protocol SearchResultsTVVMProtocol {
     
     var currentCount: Int? { get set }
     
+    func selectedLanguageRow() -> Int
+    
+    func saveSelectedLanguage(_ row: Int)
+    
     func choseRequestLanguage(_ language: LanguageFilter)
 
     func saveLastSearchText(_ text: String)
@@ -23,6 +27,8 @@ protocol SearchResultsTVVMProtocol {
     func tryFetchMoreData()
     
     func removeOldFetchedRepos()
+    
+    func clearLastRequestText()
     
     func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol?
 

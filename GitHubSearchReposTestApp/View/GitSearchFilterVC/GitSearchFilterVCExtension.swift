@@ -15,7 +15,7 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
     // MARK: - UI Configuration
     func makeAnimatedBackground() {
         animatedView = UIView()
-        animatedView.frame = view.frame
+        animatedView.translatesAutoresizingMaskIntoConstraints = false
         animatedView.backgroundColor = .black
         animatedView.alpha = 0
         
@@ -24,6 +24,13 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.animatedView.alpha = 0.5
         }
+        
+        let animatedViewConstraints = [
+            animatedView.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedView.bottomAnchor.constraint(equalTo: view.bottomAnchor)]
+        NSLayoutConstraint.activate(animatedViewConstraints)
     }
     
     func makeFilterView() {
@@ -45,7 +52,7 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
         let filterViewConstarints = [
             filterView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             filterView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90),
-            filterView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95),
+            filterView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.8),
             filterView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4)]
         NSLayoutConstraint.activate(filterViewConstarints)
     }
@@ -60,6 +67,8 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
         languagePickerView.delegate = self
         
         filterView.addSubview(languagePickerView)
+        
+        languagePickerView.selectRow(gitSearchFilterVCVM.selectedLanguageRow(), inComponent: 0, animated: true)
         
         let languagePickerViewConstraints = [
             languagePickerView.topAnchor.constraint(equalTo: filterView.topAnchor),
@@ -87,7 +96,7 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
         filterButton.setImage(tintedImage, for: .normal)
         filterButton.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
-        filterButton.addTarget(self, action: #selector(unwindGitSearchFilterVC), for: .touchUpInside)
+        filterButton.addTarget(self, action: #selector(unwindGitSearchFilterVCWithSelection), for: .touchUpInside)
         
         view.addSubview(filterButton)
         
@@ -99,9 +108,30 @@ extension GitSearchFilterVC: GitSearchFilterVCDelegate {
         NSLayoutConstraint.activate(filterButtonConstraints)
     }
     
+    // MARK: - Gesture recognizer
+    func addGestureRecognizer() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(unwindGitSearchFilterVCWithoutSelection))
+        tapRecognizer.cancelsTouchesInView = false
+        animatedView.addGestureRecognizer(tapRecognizer)
+    }
+    
     // MARK: - Transition method
-    @objc func unwindGitSearchFilterVC() {
+    @objc func unwindGitSearchFilterVCWithSelection() {
+        gitSearchFilterVCVM.saveSelectedLanguage(selectedLanguageRow)
         gitSearchFilterVCVM.applySelectedFilter()
+        
+        filterButton.isHidden = true
+        UIView.animate(withDuration: 0.5,
+                       animations: { [weak self] in
+                        guard let self = self else { return }
+                        self.filterView.alpha = 0
+                        self.animatedView.alpha = 0 }) { (_) in
+                            self.dismiss(animated: true, completion: nil) }
+    }
+    
+    @objc func unwindGitSearchFilterVCWithoutSelection() {
+        selectedLanguageFilter = oldSelectedLanguageFilter
+        selectedLanguageRow = oldSelectedLanguageRow
         
         filterButton.isHidden = true
         UIView.animate(withDuration: 0.5,
