@@ -30,6 +30,7 @@ class GitSearchFilterVCVM: GitSearchFilterVCVMProtocol {
     }
     
     func applySelectedFilter() {
+        searchResultsTVVM.scrollTableViewToTop()
         searchResultsTVVM.fetchDataWithFilter(view.selectedLanguageFilter)
     }
     

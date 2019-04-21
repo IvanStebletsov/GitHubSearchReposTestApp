@@ -63,9 +63,9 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
+                    self.scrollTableViewToTop()
                     self.view?.reloadTableViewCells(with: self.calculateIndexPathsToReload(from: newRepos))
                     self.view?.handleActivityIndicator(.deactivate)
-                    self.view?.scrollTableViewToTop()
                 }
                 
             case .failure(.network):
@@ -102,8 +102,11 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
         }
     }
     
-    func fetchDataWithFilter(_ language: String) {
+    func scrollTableViewToTop() {
         view?.scrollTableViewToTop()
+    }
+    
+    func fetchDataWithFilter(_ language: String) {
         networkService.requestLanguage = language
         removeOldFetchedRepos()
         guard let searchRequest = lastRequestText else { return }

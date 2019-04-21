@@ -17,6 +17,8 @@ protocol SearchResultsTVVMProtocol {
     func saveSelectedLanguage(_ row: Int)
     
     func choseRequestLanguage(_ language: LanguageFilter)
+    
+    func scrollTableViewToTop()
 
     func saveLastSearchText(_ text: String)
     
