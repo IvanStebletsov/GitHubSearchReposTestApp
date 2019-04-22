@@ -2,4 +2,4 @@
 
 <img src="https://github.com/IvanStebletsov/GitHubSearchReposTestApp/blob/master/raw/GitHubSearchReposTestAppReadmePicture.png" align="center">
 
-<div align="center"><a href="https://youtu.be/X5KgIZoPZQ0" align = "center">Click for watch an example of application work</a></div>
+<div align="center"><a href="https://youtu.be/ioTBEURAaVo" align = "center">Click for watch an example of application work</a></div>
