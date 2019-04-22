@@ -17,17 +17,10 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     private var selectedIndexPath: IndexPath?
     private var lastRequestText: String?
     var fetchedPages: Int?
-    private var totalCount = 0 {
-        willSet {
-            print("Total count: \(newValue)")
-        }
-    }
+    private var totalCount = 0
     var currentCount: Int?
     private var fetchedRepos = [GitRepo]() {
-        willSet {
-            currentCount = newValue.count
-            
-        }
+        willSet { currentCount = newValue.count }
     }
     
     // MARK: - Initialization
@@ -56,10 +49,12 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     }
     
     func fetchDataFor(_ searchText: String, forPageNumber page: Int) {
-        networkService.fetchTotalNumbersOfRepos(searchText, completion: { [unowned self] (response) in
-            guard let response = response else { return }
-            self.totalCount = self.totalNumberOfRepos(response)
-        })
+        if fetchedPages == nil {
+            networkService.fetchTotalNumbersOfRepos(searchText, completion: { [unowned self] (response) in
+                guard let response = response else { return }
+                self.totalCount = self.totalNumberOfRepos(response)
+            })
+        }
             
         networkService.fetchGitReposFor(searchText, forPageNumber: page) { [weak self] (result, response) in
             switch result {
@@ -137,6 +132,7 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     
     func removeOldFetchedRepos() {
         fetchedRepos.removeAll()
+        fetchedPages = nil
         totalCount = 0
     }
     

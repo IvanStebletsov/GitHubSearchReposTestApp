@@ -75,7 +75,10 @@ class NetworkService: Networking {
 
         let urlSession = URLSession.shared
         
+        
         urlSession.dataTask(with: url) { (_, response, _) in
+            guard let httpResponse = response as? HTTPURLResponse else { return }
+            print(url, httpResponse.statusCode)
             completion(response)
             }.resume()
     }
