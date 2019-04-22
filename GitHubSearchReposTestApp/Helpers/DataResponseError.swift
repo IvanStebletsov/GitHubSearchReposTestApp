@@ -21,7 +21,7 @@ enum DataResponseError: Error {
         case .request:
             return "Oops... There is nothing on such a request"
         case .connection:
-            return "Ooops... We have some problems with Internet connecton"
+            return "Ooops... We have some problems with Internet connection"
         case .decoding:
             return "Oops... We can't decode data"
         }
