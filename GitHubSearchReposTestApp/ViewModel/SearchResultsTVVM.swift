@@ -55,7 +55,7 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
                 self.totalCount = self.totalNumberOfRepos(response)
             })
         }
-            
+        
         networkService.fetchGitReposFor(searchText, forPageNumber: page) { [weak self] (result, response) in
             switch result {
                 
@@ -92,8 +92,8 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
             case .failure(.decoding):
                 guard let self = self else { return }
                 DispatchQueue.main.async {
-                self.view?.handleActivityIndicator(.deactivate)
-                self.view?.presentAlertController(DataResponseError.decoding)
+                    self.view?.handleActivityIndicator(.deactivate)
+                    self.view?.presentAlertController(DataResponseError.decoding)
                 }
                 
             case .failure(.request):
@@ -120,7 +120,10 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     
     func tryFetchMoreData() {
         self.view?.handleActivityIndicator(.activate)
-        guard view!.needFetchMoreData, let requestText = lastRequestText, let pages = fetchedPages else { return }
+        guard view!.needFetchMoreData, let requestText = lastRequestText, let pages = fetchedPages else {
+            self.view?.handleActivityIndicator(.deactivate)
+            return
+        }
         fetchDataFor(requestText, forPageNumber: pages + 1)
     }
     
