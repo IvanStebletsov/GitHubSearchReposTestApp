@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Apollo
+
 
 class NetworkService: Networking {
     
@@ -16,6 +18,17 @@ class NetworkService: Networking {
                          "per_page": "1",
                          "page": "1"]
     var requestLanguage = "Default"
+    
+    // MARK: - Apollo code
+//    let apollo: ApolloClient = {
+//        let configuration = URLSessionConfiguration.default
+//
+//        configuration.httpAdditionalHeaders = ["Authorization": "bearer <your token>"]
+//
+//        let url = URL(string: "https://api.github.com/graphql")!
+//
+//        return ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
+//    }()
     
     // MARK: - Methods
     func fetchGitReposFor(_ query: String, forPageNumber pageNumber: Int, completion: @escaping ((Result<[GitRepo], DataResponseError>, URLResponse?) -> ())) {
