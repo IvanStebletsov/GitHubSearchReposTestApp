@@ -10,17 +10,16 @@ import Foundation
 
 class GitRepoTVCVM: GitRepoTVCVMProtocol {
     
-    var repoForCell: GitRepo
+    var repoForCell: RepoDetails
     
     // MARK: - Initialization
-    init(repoForCell: GitRepo) {
+    init(repoForCell: RepoDetails) {
         self.repoForCell = repoForCell
     }
     
     // MARK: - GitRepoTVCVMProtocol methods
     func repoName() -> String {
-        guard let authorName = repoForCell.author?.name, let repoName = repoForCell.name else { return "" }
-        return #"\#(authorName)/\#(repoName)"#
+        return repoForCell.name
     }
     
     func repoDescription() -> String {
@@ -30,11 +29,11 @@ class GitRepoTVCVM: GitRepoTVCVMProtocol {
     
     func repoProgrammingLanguage() -> String {
         guard let language = repoForCell.language else { return "No language" }
-        return language
+        return language.name
     }
     
     func repoStarRating() -> String {
-        guard let starRating = repoForCell.starRating else { return "0" }
+        let starRating = repoForCell.starRating.totalCount
         if starRating / 1000 >= 1 {
             let formattedRating = Double(starRating) / 1000
             return String(format: "%.1f", formattedRating) + "k"

@@ -1,18 +1,30 @@
-query SearchRepos($searchText: String!) {
-search(first: 20, query: $searchText, type: REPOSITORY) {
-nodes {
+query FetchReposForSeach ($text: String!, $after: String) {
+allRepos: search(query: $text, type: REPOSITORY, first: 30, after: $after) {
+totalCount: repositoryCount
+page: pageInfo {
+hasNext: hasNextPage
+endId: endCursor
+}
+fetchedRepos: edges {
+repoInfo: node {
 ... on Repository {
-...RepositoryDetail
+...RepoDetails
+}
 }
 }
 }
 }
 
-fragment RepositoryDetail on Repository {
+fragment RepoDetails on Repository {
 id
-nameWithOwner
-viewerHasStarred
-stargazers {
+name: nameWithOwner
+description
+url
+starRating: stargazers {
 totalCount
+}
+language: primaryLanguage {
+name
+color
 }
 }

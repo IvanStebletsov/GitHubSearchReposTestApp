@@ -26,6 +26,7 @@ extension GitSearchVC {
         
         searchResultsTableView.backgroundColor = #colorLiteral(red: 0.9643666148, green: 0.9724945426, blue: 0.9806874394, alpha: 1)
         searchResultsTableView.separatorStyle = .none
+        searchResultsTableView.rowHeight = UITableView.automaticDimension
         searchResultsTableView.register(GitRepoTVC.self, forCellReuseIdentifier: cellId)
         searchResultsTableView.register(StubGitRepoTVC.self, forCellReuseIdentifier: stubCellId)
         
@@ -159,14 +160,18 @@ extension GitSearchVC {
     @objc func clearSearchResultsTableView() {
         searchResultsTVVM.removeOldFetchedRepos()
         searchResultsTVVM.clearLastRequestText()
-        needFetchMoreData = true
+        searchResultsTVVM.saveSelectedLanguage(0)
+        searchResultsTVVM.fetchDataWithFilter("Default")
+        needFetchMoreData = false
         searchResultsTableView.reloadData()
+        selectedLanguageRow = 0
+        cellHeightsDictionary.removeAll()
         searchBar.text = ""
     }
     
     // MARK: - Helpers methods for prefetching
     func needLoadingCell(for indexPath: IndexPath) -> Bool {
-        return indexPath.row >= searchResultsTVVM.currentCount!
+        return indexPath.row >= searchResultsTVVM.currentCountFetchedRepos()
     }
     
     func visibleIndexPathsToReload(intersecting indexPaths: [IndexPath]) -> [IndexPath] {
@@ -193,10 +198,6 @@ extension GitSearchVC: GitSearchVCDelegate {
         searchBar.resignFirstResponder()
     }
     
-    func needMoreDataRepeatRequest() {
-        needFetchMoreData = true
-    }
-    
     func handleActivityIndicator(_ state: ActivityIndicatorStates) {
         switch state {
         case .activate:
@@ -209,11 +210,15 @@ extension GitSearchVC: GitSearchVCDelegate {
     }
     
     func reloadTableViewCells(with newIndexPathsToReload: [IndexPath]) {
-        if searchResultsTVVM.numberOfFetchedPages() > 1 {
-            let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
-            searchResultsTableView.reloadRows(at: indexPathsToReload, with: .automatic)
-        } else {
+        if searchResultsTVVM.isFirstFetchedPage() {
+            cellHeightsDictionary.removeAll()
+            scrollTableViewToTop()
             searchResultsTableView.reloadData()
+        } else {
+            let indexPathsToReload = visibleIndexPathsToReload(intersecting: newIndexPathsToReload)
+            guard !indexPathsToReload.isEmpty else { return }
+            searchResultsTableView.reloadRows(at: indexPathsToReload, with: .fade)
+            moreDataFetched()
         }
     }
     
@@ -221,8 +226,8 @@ extension GitSearchVC: GitSearchVCDelegate {
         needFetchMoreData = false
     }
     
-    func presentAlertController(_ error: DataResponseError) {
-        let alertController = UIAlertController(title: error.reason, message: nil, preferredStyle: .alert)
+    func presentAlertController(_ error: Error) {
+        let alertController = UIAlertController(title: error as? String, message: nil, preferredStyle: .alert)
         let okAlertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(okAlertAction)
         

@@ -12,15 +12,11 @@ class GitSearchVC: UIViewController {
     
     // MARK: - Properties
     var searchResultsTVVM: SearchResultsTVVMProtocol!
-    var pendingRequestWorkItem: DispatchWorkItem?
     var needFetchMoreData = false
     let cellId = "cellId"
     let stubCellId = "stubCellId"
-    var selectedLanguageRow = 0 {
-        willSet {
-            print(newValue)
-        }
-    }
+    var cellHeightsDictionary = [IndexPath: CGFloat]()
+    var selectedLanguageRow = 0
     
     // MARK: - UI elements
     var searchResultsTableView: UITableView!

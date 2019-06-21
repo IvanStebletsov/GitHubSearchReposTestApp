@@ -18,7 +18,7 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
         default:
             gitLogoImageView.isHidden = true
         }
-        return searchResultsTVVM.numberOfRows()
+        return searchResultsTVVM.numberOfRows() <= 1000 ? searchResultsTVVM.numberOfRows() : 1000
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,7 +28,7 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
         if needLoadingCell(for: indexPath) {
             return stubCell
         } else {
-            cell.gitRepoTVCVM = searchResultsTVVM.viewModelForSell(forIndexPath: indexPath)
+            cell.gitRepoTVCVM = searchResultsTVVM.viewModelForCell(forIndexPath: indexPath)
             return cell
         }
     }
@@ -43,12 +43,11 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
         gitRepoWebVC.url = searchResultsTVVM.selectRow(atIndexPath: indexPath)
         present(gitRepoWebVC, animated: true, completion: nil)
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         if needLoadingCell(for: indexPath) {
             guard let cell = cell as? StubGitRepoTVC else { return }
-            
             cell.stubRepoIconView.alpha = 1
             cell.stubRepoNameLabelView.alpha = 1
             cell.stubRepoDescriptionLabelView.alpha = 1
@@ -68,16 +67,23 @@ extension GitSearchVC: UITableViewDelegate, UITableViewDataSource, UITableViewDa
                                         cell.stubRepoProgrammingLanguageLabelView.alpha = 0.5
                                         cell.stubStarIconView.alpha = 0.5
                                         cell.stubStarRatingLabelView.alpha = 0.5 },
-                                    completion: nil)}
+                                    completion: nil)
+        }
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        searchBar.text = ""
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cellHeightsDictionary[indexPath] = tableView.cellForRow(at: indexPath)?.frame.size.height
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let cellHeight = cellHeightsDictionary[indexPath] {
+            return cellHeight
+        }
+        return UITableView.automaticDimension
     }
     
     // MARK: - UITableViewDataSourcePrefetching protocls
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        
         if indexPaths.contains(where: needLoadingCell) && !needFetchMoreData {
             needFetchMoreData = true
             searchResultsTVVM.tryFetchMoreData()

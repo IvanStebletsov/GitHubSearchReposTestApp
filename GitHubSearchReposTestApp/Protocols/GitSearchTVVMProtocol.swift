@@ -10,8 +10,6 @@ import Foundation
 
 protocol SearchResultsTVVMProtocol {
     
-    var currentCount: Int? { get set }
-    
     func selectedLanguageRow() -> Int
     
     func saveSelectedLanguage(_ row: Int)
@@ -24,9 +22,11 @@ protocol SearchResultsTVVMProtocol {
     
     func numberOfRows() -> Int
     
-    func numberOfFetchedPages() -> Int 
+    func isFirstFetchedPage() -> Bool
     
-    func fetchDataFor(_ searchText: String, forPageNumber page: Int)
+    func fetchDataFor(_ searchText: String, _ after: String?)
+    
+    func currentCountFetchedRepos() -> Int
     
     func tryFetchMoreData()
     
@@ -34,7 +34,7 @@ protocol SearchResultsTVVMProtocol {
     
     func clearLastRequestText()
     
-    func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol?
+    func viewModelForCell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol?
 
     func selectRow(atIndexPath indexPath:IndexPath) -> URL?
     

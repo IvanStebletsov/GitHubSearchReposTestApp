@@ -8,35 +8,36 @@
 
 import Foundation
 
+
 class SearchResultsTVVM: SearchResultsTVVMProtocol {
     
     // MARK: - Properties
-    private var networkService: Networking!
+    private var grpahQLService: GraphQLAPI!
+    private var nextPageId: String?
+    private var totalReposCount = 0
+    private var repoDetails = [RepoDetails?]()
     private weak var view: GitSearchVCDelegate?
-    private var pendingRequestWorkItem: DispatchWorkItem? // TODO
     private var selectedIndexPath: IndexPath?
     private var lastRequestText: String?
-    var fetchedPages: Int?
-    private var totalCount = 0
-    var currentCount: Int?
-    private var fetchedRepos = [GitRepo]() {
-        willSet { currentCount = newValue.count }
-    }
+    private var firstFetchedPage = true
     
     // MARK: - Initialization
     init(view: GitSearchVCDelegate) {
         self.view = view
-        self.networkService = NetworkService()
+        self.grpahQLService = GraphQLService()
     }
     
     // MARK: - SearchResultsTVVMProtocol methods
     func numberOfRows() -> Int {
-        return totalCount
+        return totalReposCount
     }
     
-    func numberOfFetchedPages() -> Int {
-        guard let page = fetchedPages else { return 1 }
-        return page
+    func currentCountFetchedRepos() -> Int {
+        return repoDetails.count
+    }
+    
+    func isFirstFetchedPage() -> Bool {
+        return firstFetchedPage
     }
     
     func selectedLanguageRow() -> Int {
@@ -48,60 +49,30 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
         view?.selectedLanguageRow = row
     }
     
-    func fetchDataFor(_ searchText: String, forPageNumber page: Int) {
-        if fetchedPages == nil {
-            networkService.fetchTotalNumbersOfRepos(searchText, completion: { [unowned self] (response) in
-                guard let response = response else { return }
-                self.totalCount = self.totalNumberOfRepos(response)
-            })
-        }
-        
-        networkService.fetchGitReposFor(searchText, forPageNumber: page) { [weak self] (result, response) in
+    // MARK: - GraphQL requests
+    func fetchDataFor(_ searchText: String, _ after: String?) {
+        self.grpahQLService.fetchReposFor(searchText, page: after) { [weak self] (result) in
+            guard let self = self else { return }
+            
             switch result {
+            case .success(let fetched):
+                guard let fetchedRepos = fetched.data?.allRepos else { return }
                 
-            case .success(let newRepos):
-                guard let self = self else { return }
-                self.fetchedPages = page
-                self.fetchedRepos += newRepos
-                self.view?.moreDataFetched()
+                if self.firstFetchedPage { self.totalReposCount = fetchedRepos.totalCount }
+                self.nextPageId = fetchedRepos.page.hasNext ? fetchedRepos.page.endId : nil
+                
+                guard let repoDetails = fetchedRepos.fetchedRepos.map({ $0 })?.map({ $0?.repoInfo?.asRepository?.fragments.repoDetails }) else { return }
+                self.repoDetails += repoDetails
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
-                    self.view?.reloadTableViewCells(with: self.calculateIndexPathsToReload(from: newRepos))
+                    self.view?.moreDataFetched()
+                    self.view?.reloadTableViewCells(with: self.calculateIndexPathsToReload(from: repoDetails))
                     self.view?.handleActivityIndicator(.deactivate)
-                    self.scrollTableViewToTop()
                 }
                 
-            case .failure(.network):
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 403 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: DispatchWorkItem.init(block: { [weak self] in
-                        guard let self = self else { return }
-                        self.view?.handleActivityIndicator(.deactivate)
-                        self.view?.needMoreDataRepeatRequest()
-                        self.tryFetchMoreData()
-                    }))
-                }
-                
-            case .failure(.connection):
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    self.view?.handleActivityIndicator(.deactivate)
-                    self.view?.presentAlertController(DataResponseError.connection)
-                }
-                
-            case .failure(.decoding):
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    self.view?.handleActivityIndicator(.deactivate)
-                    self.view?.presentAlertController(DataResponseError.decoding)
-                }
-                
-            case .failure(.request):
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    self.view?.handleActivityIndicator(.deactivate)
-                    self.view?.presentAlertController(DataResponseError.request)
-                }
+            case .failure(let error):
+                self.view?.presentAlertController(error)
             }
         }
     }
@@ -111,32 +82,35 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     }
     
     func fetchDataWithFilter(_ language: String) {
-        networkService.requestLanguage = language
+        grpahQLService.requestLanguage = language
         removeOldFetchedRepos()
         guard let searchRequest = lastRequestText else { return }
         self.view?.handleActivityIndicator(.activate)
-        self.fetchDataFor(searchRequest, forPageNumber: 1)
+        self.fetchDataFor(searchRequest, nil)
+        self.firstFetchedPage = true
+        self.view?.reloadTableViewCells(with: [IndexPath]())
     }
     
     func tryFetchMoreData() {
         self.view?.handleActivityIndicator(.activate)
-        guard view!.needFetchMoreData, let requestText = lastRequestText, let pages = fetchedPages else {
+        guard let requestText = lastRequestText, let nextPage = nextPageId else {
             self.view?.handleActivityIndicator(.deactivate)
             return
         }
-        fetchDataFor(requestText, forPageNumber: pages + 1)
+        self.fetchDataFor(requestText, nextPage)
+        self.firstFetchedPage = false
     }
     
-    
-    func viewModelForSell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol? {
-        guard !fetchedRepos.isEmpty else { return nil }
-        return GitRepoTVCVM(repoForCell: fetchedRepos[indexPath.row])
+    func viewModelForCell(forIndexPath indexPath: IndexPath) -> GitRepoTVCVMProtocol? {
+        guard !repoDetails.isEmpty else { return nil }
+        guard let repoDetailsForTVCVM = repoDetails[indexPath.row] else { return nil }
+        return GitRepoTVCVM(repoForCell: repoDetailsForTVCVM)
     }
     
     func removeOldFetchedRepos() {
-        fetchedRepos.removeAll()
-        fetchedPages = nil
-        totalCount = 0
+        repoDetails.removeAll()
+        totalReposCount = 0
+        firstFetchedPage = true
     }
     
     func clearLastRequestText() {
@@ -149,33 +123,17 @@ class SearchResultsTVVM: SearchResultsTVVMProtocol {
     
     func selectRow(atIndexPath indexPath: IndexPath) -> URL? {
         selectedIndexPath = indexPath
-        guard let repoUrl = fetchedRepos[indexPath.row].url else { return nil }
-        guard let url = URL(string: repoUrl) else { return nil }
+        guard let repo = repoDetails[indexPath.row] else { return nil }
+        guard let url = URL(string: repo.url) else { return nil }
         return url
     }
     
     func choseRequestLanguage(_ language: LanguageFilter) {
-        networkService.requestLanguage = language.rawValue
+        grpahQLService.requestLanguage = language.rawValue
     }
     
-    private func totalNumberOfRepos(_ response: URLResponse) -> Int {
-        var totalPages = 0
-        
-        guard let response = response as? HTTPURLResponse else { return totalPages }
-        
-        guard let list = response.allHeaderFields["Link"] as! String? else { return totalCount }
-        let stringsWithURLs = list.components(separatedBy: "page=")
-        let pages = stringsWithURLs.map { $0.trimmingCharacters(in: CharacterSet(charactersIn: "0123456789").inverted) }
-        
-        for each in pages {
-            guard let number = Int(each) else { continue }
-            if number > totalPages { totalPages = number }
-        }
-        return totalPages
-    }
-    
-    private func calculateIndexPathsToReload(from newRepos: [GitRepo]) -> [IndexPath] {
-        let startIndex = fetchedRepos.count - newRepos.count
+    private func calculateIndexPathsToReload(from newRepos: [RepoDetails?]) -> [IndexPath] {
+        let startIndex = repoDetails.count - newRepos.count
         let endIndex = startIndex + newRepos.count
         
         return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }

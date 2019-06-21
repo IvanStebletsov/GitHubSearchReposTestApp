@@ -18,9 +18,7 @@ protocol GitSearchVCDelegate: class {
     
     func moreDataFetched()
     
-    func needMoreDataRepeatRequest()
-    
-    func presentAlertController(_ error: DataResponseError)
+    func presentAlertController(_ error: Error)
     
     func handleActivityIndicator(_ state: ActivityIndicatorStates)
     
