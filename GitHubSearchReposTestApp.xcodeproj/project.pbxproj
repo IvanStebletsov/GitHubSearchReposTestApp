@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1D439D27AAAA026A79EBF939 /* Pods_GitHubSearchReposTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DBE92F7AC8D9852355663B5 /* Pods_GitHubSearchReposTestApp.framework */; };
-		263AE55522B6DD060011228E /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263AE55422B6DD060011228E /* API.swift */; };
 		263AE55722B6DD1B0011228E /* github.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 263AE55622B6DD1B0011228E /* github.graphql */; };
 		263AE55922B6E4BD0011228E /* GraphQLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263AE55822B6E4BD0011228E /* GraphQLService.swift */; };
 		265EB3E722B6DB7A00559385 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 265EB3E622B6DB7A00559385 /* schema.json */; };
@@ -34,6 +33,7 @@
 		2663DC62226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC61226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift */; };
 		2663DC64226B987000ED38CB /* GitSearchFilterVCDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663DC63226B987000ED38CB /* GitSearchFilterVCDelegate.swift */; };
 		267B386A22BD3E8200D0A76B /* GraphQLServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B386922BD3E8200D0A76B /* GraphQLServiceProtocol.swift */; };
+		267B387122BE403A00D0A76B /* GraphQLAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B387022BE403900D0A76B /* GraphQLAPI.swift */; };
 		2684409122665B7C0096CF6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684409022665B7C0096CF6F /* AppDelegate.swift */; };
 		2684409322665B7C0096CF6F /* GitSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684409222665B7C0096CF6F /* GitSearchVC.swift */; };
 		2684409822665B7E0096CF6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2684409722665B7E0096CF6F /* Assets.xcassets */; };
@@ -68,7 +68,6 @@
 
 /* Begin PBXFileReference section */
 		02CA0AAE134F059A19EB3438 /* Pods-GitHubSearchReposTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubSearchReposTestApp.release.xcconfig"; path = "Target Support Files/Pods-GitHubSearchReposTestApp/Pods-GitHubSearchReposTestApp.release.xcconfig"; sourceTree = "<group>"; };
-		263AE55422B6DD060011228E /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		263AE55622B6DD1B0011228E /* github.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = github.graphql; sourceTree = "<group>"; };
 		263AE55822B6E4BD0011228E /* GraphQLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLService.swift; sourceTree = "<group>"; };
 		265EB3E622B6DB7A00559385 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
@@ -94,6 +93,7 @@
 		2663DC61226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVCVMProtocol.swift; sourceTree = "<group>"; };
 		2663DC63226B987000ED38CB /* GitSearchFilterVCDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchFilterVCDelegate.swift; sourceTree = "<group>"; };
 		267B386922BD3E8200D0A76B /* GraphQLServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphQLServiceProtocol.swift; sourceTree = "<group>"; };
+		267B387022BE403900D0A76B /* GraphQLAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQLAPI.swift; sourceTree = "<group>"; };
 		2684408D22665B7B0096CF6F /* GitHubSearchReposTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubSearchReposTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2684409022665B7C0096CF6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2684409222665B7C0096CF6F /* GitSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSearchVC.swift; sourceTree = "<group>"; };
@@ -172,6 +172,16 @@
 			path = GitSearchFilterVC;
 			sourceTree = "<group>";
 		};
+		267B386F22BE3FF000D0A76B /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				267B387022BE403900D0A76B /* GraphQLAPI.swift */,
+				265EB3E622B6DB7A00559385 /* schema.json */,
+				263AE55622B6DD1B0011228E /* github.graphql */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
 		2684408422665B7B0096CF6F = {
 			isa = PBXGroup;
 			children = (
@@ -195,10 +205,8 @@
 		2684408F22665B7B0096CF6F /* GitHubSearchReposTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				265EB3E622B6DB7A00559385 /* schema.json */,
-				263AE55422B6DD060011228E /* API.swift */,
-				263AE55622B6DD1B0011228E /* github.graphql */,
 				26C1ED9522665D2B0084BF5C /* AppDelegate */,
+				267B386F22BE3FF000D0A76B /* GraphQL */,
 				26C1ED9B22665DEF0084BF5C /* Services */,
 				26C1ED9822665DA80084BF5C /* Model */,
 				26C1ED9722665D9C0084BF5C /* View */,
@@ -468,7 +476,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate --queries=\"$(find . -name '*.graphql')\" --schema=schema.json API.swift\n";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}/GraphQL\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate --queries=\"$(find . -name '*.graphql')\" --schema=schema.json GraphQLAPI.swift\n";
 		};
 		4FBFE45D3CFF58E663316B81 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -561,7 +569,6 @@
 				26C1ED9D22665E080084BF5C /* NetworkService.swift in Sources */,
 				2663DC5C226B784800ED38CB /* GitSearchFilterVCExtension.swift in Sources */,
 				2663DC55226AAD0C00ED38CB /* ActivityIndicatorStates.swift in Sources */,
-				263AE55522B6DD060011228E /* API.swift in Sources */,
 				2663DC5A226B780800ED38CB /* GitSearchFilterVC.swift in Sources */,
 				2663DC45226945F100ED38CB /* HTTPURLResponseExtension.swift in Sources */,
 				2684409122665B7C0096CF6F /* AppDelegate.swift in Sources */,
@@ -570,6 +577,7 @@
 				26C1EDAF2267C3620084BF5C /* GitSearchTVVMProtocol.swift in Sources */,
 				26C1EDA6226667280084BF5C /* GitRepoRequest.swift in Sources */,
 				2663DC62226B89B000ED38CB /* GitSearchFilterVCVMProtocol.swift in Sources */,
+				267B387122BE403A00D0A76B /* GraphQLAPI.swift in Sources */,
 				2663DC4E2269DF2E00ED38CB /* LanguageColor.swift in Sources */,
 				2663DC392268F58700ED38CB /* GitRepoTVC.swift in Sources */,
 				26C1EDB32267C52E0084BF5C /* SearchResultsTVVM.swift in Sources */,

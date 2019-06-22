@@ -32,6 +32,8 @@ class GitSearchFilterVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
+        selectedLanguageRow = gitSearchFilterVCVM.selectedLanguageRow()
+        selectedLanguageFilter = gitSearchFilterVCVM.languageFor(selectedLanguageRow)
         makeFilterView()
         makeLanguagePickerView()
     }

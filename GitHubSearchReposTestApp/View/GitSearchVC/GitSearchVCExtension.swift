@@ -227,8 +227,17 @@ extension GitSearchVC: GitSearchVCDelegate {
     }
     
     func presentAlertController(_ error: Error) {
-        let alertController = UIAlertController(title: error as? String, message: nil, preferredStyle: .alert)
-        let okAlertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        var errorMessage = error.localizedDescription
+        if let errorMessageEndIndex = errorMessage.firstIndex(of: ":") {
+            errorMessage = String(errorMessage.prefix(upTo: errorMessageEndIndex))
+        }
+
+        let alertController = UIAlertController(title: errorMessage, message: nil, preferredStyle: .alert)
+        let okAlertAction = UIAlertAction(title: "ОК", style: .default) { [weak self ] (_) in
+            guard let self = self else { return }
+            self.handleActivityIndicator(.deactivate)
+        }
+        
         alertController.addAction(okAlertAction)
         
         DispatchQueue.main.async { [weak self] in

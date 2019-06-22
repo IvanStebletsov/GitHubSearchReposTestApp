@@ -35,7 +35,7 @@ class MockGitSearchVC: GitSearchVCDelegate {
         }
     }
     
-    func presentAlertController(_ error: DataResponseError) {
+    func presentAlertController(_ error: Error) {
         print(error)
     }
     

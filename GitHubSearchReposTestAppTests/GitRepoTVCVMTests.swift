@@ -11,17 +11,17 @@ import XCTest
 
 class GitRepoTVCVMTests: XCTestCase {
     
-    var repoForCell: GitRepo!
+    var repoForCell: RepoDetails!
     var gitRepoTVCVM: GitRepoTVCVMProtocol!
 
     override func setUp() {
-        let repoAuthor = RepoAuthor(name: "IvanStebletsov")
-        repoForCell = GitRepo(name: "GitHubSearchReposTestApp",
-                              url: "https://github.com/IvanStebletsov/GitHubSearchReposTestApp",
-                              author: repoAuthor,
-                              language: "Swift",
-                              description: "This project is a test task for the position of Junior iOS developer",
-                              starRating: 6538)
+        repoForCell = RepoDetails(id: "GraphQLID",
+                                  name: "IvanStebletsov/GitHubSearchReposTestApp",
+                                  description: "This project is a test task for the position of Junior iOS developer",
+                                  url: "https://github.com/IvanStebletsov/GitHubSearchReposTestApp",
+                                  starRating: RepoDetails.StarRating(totalCount: 6538),
+                                  language: RepoDetails.Language(name: "Swift"))
+        
         gitRepoTVCVM = GitRepoTVCVM(repoForCell: repoForCell)
     }
 
@@ -43,7 +43,7 @@ class GitRepoTVCVMTests: XCTestCase {
     }
     
     func testGitRepoTVCVMCanRetrievRepoProgrammingLanguage() {
-        XCTAssertEqual(gitRepoTVCVM.repoProgrammingLanguage(), repoForCell.language, "GitRepoTVCVM can not retrive repo programming language")
+        XCTAssertEqual(gitRepoTVCVM.repoProgrammingLanguage(), repoForCell.language?.name, "GitRepoTVCVM can not retrive repo programming language")
     }
     
     func testGitRepoTVCVMCanRetrieveRepoStarRating() {

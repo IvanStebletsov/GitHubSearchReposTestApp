@@ -34,12 +34,6 @@ class SearchResultTVVMTests: XCTestCase {
         
         XCTAssertEqual(numberOfRows, 0, "SearchResultTVVM does not retriev number of rows for tableView")
     }
-    
-    func testSearchResultTVVMCanRetrieveNumberOfFetchedPages() {
-        let fetchedPages = searchResultTVVM.numberOfFetchedPages()
-        
-        XCTAssertEqual(fetchedPages, 1, "SearchResultTVVM does not retriev number of fetched pages")
-    }
 
     func testSearchResultTVVMCanSaveSelectedLanguageRowInView() {
         let selectedLanguage = 2

@@ -18,7 +18,7 @@ class GraphQLService: GraphQLAPI {
     let apollo: ApolloClient = {
         let configuration = URLSessionConfiguration.default
         
-        configuration.httpAdditionalHeaders = ["Authorization": "bearer 0a12dd7dc8e934ab79df1878dae06b4eb0cd9dca"]
+        configuration.httpAdditionalHeaders = ["Authorization": "bearer 1d6497df49f2afddedb9a8618d399ad110ce89e6"]
         let url = URL(string: "https://api.github.com/graphql")!
         
         return ApolloClient(networkTransport: HTTPNetworkTransport(url: url, configuration: configuration))
@@ -40,7 +40,11 @@ class GraphQLService: GraphQLAPI {
         }
         
         apollo.fetch(query: searchQuery, cachePolicy: .returnCacheDataElseFetch, queue: .global()) { (result, error) in
-            if let error = error { completion(Result.failure(error)) }
+            
+            if let error = error as NSError? {
+                let x = error.localizedDescription
+                print(x)
+                completion(Result.failure(error)) }
             
             guard let data = result else { return }
             completion(Result.success(data))
